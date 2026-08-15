@@ -1,0 +1,21 @@
+topic,subtopic,description,importance
+Machine Learning,Supervised Learning,Learning from labeled data with input-output pairs,High
+Machine Learning,Unsupervised Learning,Finding patterns in unlabeled data,High
+Machine Learning,Reinforcement Learning,Learning through trial and error with rewards,Medium
+Deep Learning,CNN,Convolutional Neural Networks for image processing,High
+Deep Learning,RNN,Recurrent Neural Networks for sequential data,Medium
+Deep Learning,Transformer,Self-attention based architecture for NLP,Critical
+NLP,Tokenization,Breaking text into words or subwords,High
+NLP,NER,Named Entity Recognition for identifying entities,Medium
+NLP,Sentiment Analysis,Determining emotional tone of text,Medium
+LLM,GPT,Generative Pre-trained Transformer by OpenAI,Critical
+LLM,BERT,Bidirectional Encoder Representations by Google,High
+LLM,LLaMA,Open-source LLM by Meta,High
+LLM,Qwen,Multilingual model by Alibaba Cloud,Medium
+RAG,Retrieval,Finding relevant documents from knowledge base,Critical
+RAG,Augmentation,Adding retrieved context to LLM input,Critical
+RAG,Generation,Producing grounded answers,Critical
+RAG,Evaluation,Measuring RAG system quality,High
+GraphRAG,Knowledge Graph,Entities and relationships as nodes and edges,High
+GraphRAG,Multi-hop Reasoning,Following relationship chains for complex queries,High
+GraphRAG,Hybrid Retrieval,Combining vector and graph retrieval,Critical

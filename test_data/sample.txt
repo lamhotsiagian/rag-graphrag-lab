@@ -1,0 +1,21 @@
+Artificial Intelligence and Machine Learning Overview
+
+Artificial Intelligence (AI) is the simulation of human intelligence by machines. It encompasses many subfields including machine learning, natural language processing, computer vision, and robotics.
+
+Machine Learning is a core subset of AI that enables systems to learn from data without being explicitly programmed. The three main paradigms are supervised learning (learning from labeled examples), unsupervised learning (finding patterns in unlabeled data), and reinforcement learning (learning through trial and error with rewards).
+
+Deep Learning uses multi-layered neural networks to learn hierarchical data representations. Convolutional Neural Networks excel at image processing, while Recurrent Neural Networks handle sequential data like text and time series. The Transformer architecture, introduced in 2017, revolutionized NLP with its self-attention mechanism.
+
+Large Language Models such as GPT, BERT, LLaMA, and Qwen are trained on massive text corpora and can generate coherent text, answer questions, translate languages, and perform various language tasks. However, they can sometimes produce hallucinated or factually incorrect information.
+
+Retrieval-Augmented Generation (RAG) addresses LLM limitations by combining retrieval from external knowledge bases with generation. The process involves indexing documents into vector databases, retrieving relevant passages for a given query using embedding similarity, and then generating answers grounded in the retrieved context. This approach reduces hallucinations and enables source attribution.
+
+Knowledge Graphs represent information as entities (nodes) and relationships (edges). They capture structured, factual knowledge about the world. When combined with RAG systems (GraphRAG), they enable multi-hop reasoning, entity-centric retrieval, and more accurate answers for complex questions that require understanding relationships between concepts.
+
+Vector databases store high-dimensional vector representations (embeddings) of text and enable fast similarity search. Popular implementations include pgvector (PostgreSQL extension), Pinecone, Weaviate, and Chroma. They support operations like cosine similarity, dot product, and L2 distance for finding semantically similar documents.
+
+Embeddings are dense numerical representations of text in a high-dimensional space where semantically similar texts are closer together. Models like nomic-embed-text, text-embedding-ada-002, and sentence-transformers generate these representations. The quality of embeddings directly impacts RAG retrieval performance.
+
+Evaluation of RAG systems involves metrics for both retrieval (Precision@K, Recall@K, MRR) and generation (faithfulness, answer relevance, context relevance). Tools like RAGAS provide automated evaluation frameworks. Golden datasets with question-answer pairs serve as benchmarks for measuring system quality.
+
+Production RAG systems must address scalability (handling millions of documents), reliability (graceful degradation, retry strategies), security (access control, prompt injection defense), and cost optimization (caching, token budgeting). System design interviews often focus on these non-functional requirements.

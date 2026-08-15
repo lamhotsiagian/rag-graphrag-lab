@@ -1,0 +1,41 @@
+
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: rag-lab-postgres
+    environment:
+      POSTGRES_USER: raguser
+      POSTGRES_PASSWORD: ragpass
+      POSTGRES_DB: ragdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./scripts/init_pgvector.sql:/docker-entrypoint-initdb.d/init_pgvector.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U raguser -d ragdb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  neo4j:
+    image: neo4j:5-community
+    container_name: rag-lab-neo4j
+    environment:
+      NEO4J_AUTH: neo4j/neo4jpass
+      NEO4J_PLUGINS: '["apoc"]'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4jdata:/data
+    healthcheck:
+      test: ["CMD", "neo4j", "status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  pgdata:
+  neo4jdata:

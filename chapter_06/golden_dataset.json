@@ -1,0 +1,195 @@
+{
+  "_comment": [
+    "Golden dataset for the Chapter 6 evaluation lab, built over test_data/sample.md.",
+    "It deliberately carries every property Chapter 6 argues a golden set needs:",
+    "segments so an aggregate gain cannot hide a segment regression, unanswerable",
+    "cases so the abstention rate is measurable, multi-turn cases so condensation",
+    "failures are visible, and graded relevance so NDCG means something.",
+    "",
+    "relevant_chunk_ids are content hashes, which change when the chunking",
+    "configuration changes. Regenerate them with scripts/rebuild_golden_ids.py",
+    "after any chunking change, as Chapter 6 warns."
+  ],
+  "chunking": {
+    "strategy": "recursive",
+    "size": 600,
+    "overlap": 72,
+    "source": "test_data/sample.md"
+  },
+  "cases": [
+    {
+      "case_id": "factual-01",
+      "question": "What are the three main types of machine learning?",
+      "expected_answer": "Supervised learning, unsupervised learning, and reinforcement learning.",
+      "segment": "factual",
+      "is_answerable": true,
+      "relevant_chunk_ids": [
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b",
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b",
+        "b20d87a2d87b23707353acd7a49a382f8bca74a0c5866956adea9d47e4c7a4e9"
+      ],
+      "relevance_grades": {
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 2,
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b": 1,
+        "b20d87a2d87b23707353acd7a49a382f8bca74a0c5866956adea9d47e4c7a4e9": 1
+      }
+    },
+    {
+      "case_id": "factual-02",
+      "question": "Which algorithm family does k-means clustering belong to?",
+      "expected_answer": "Unsupervised learning.",
+      "segment": "factual",
+      "is_answerable": true,
+      "relevant_chunk_ids": [
+        "50faaa69487c6a65ee015fc24d3b0d9b76003b6f2be38ad4d3b30e09e5f61102",
+        "5ac0fe0a969b1b2a1f413fae858e589cc7e76ade7c36af70046f1b244b655d3a",
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b"
+      ],
+      "relevance_grades": {
+        "50faaa69487c6a65ee015fc24d3b0d9b76003b6f2be38ad4d3b30e09e5f61102": 2,
+        "5ac0fe0a969b1b2a1f413fae858e589cc7e76ade7c36af70046f1b244b655d3a": 1,
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b": 1
+      }
+    },
+    {
+      "case_id": "conceptual-01",
+      "question": "How does deep learning differ from machine learning more broadly?",
+      "expected_answer": "Deep learning is a subset of machine learning that uses neural networks with multiple layers to learn hierarchical representations automatically.",
+      "segment": "conceptual",
+      "is_answerable": true,
+      "relevant_chunk_ids": [
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b",
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b",
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824"
+      ],
+      "relevance_grades": {
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 2,
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b": 1,
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824": 1
+      }
+    },
+    {
+      "case_id": "conceptual-02",
+      "question": "Why do recurrent networks suit sequential data?",
+      "expected_answer": "They maintain hidden states that carry information from previous time steps.",
+      "segment": "conceptual",
+      "is_answerable": true,
+      "relevant_chunk_ids": [
+        "53fd8c351c9dda86fce815e172c77d66f3a965332381afa592d68af3c7b6c443",
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824",
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b"
+      ],
+      "relevance_grades": {
+        "53fd8c351c9dda86fce815e172c77d66f3a965332381afa592d68af3c7b6c443": 2,
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824": 1,
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 1
+      }
+    },
+    {
+      "case_id": "comparative-01",
+      "question": "What is the difference between a convolutional network and a recurrent network?",
+      "expected_answer": "CNNs process grid-like data such as images using convolutional layers. RNNs process sequential data using hidden states.",
+      "segment": "comparative",
+      "is_answerable": true,
+      "relevant_chunk_ids": [
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824",
+        "53fd8c351c9dda86fce815e172c77d66f3a965332381afa592d68af3c7b6c443",
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b"
+      ],
+      "relevance_grades": {
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824": 2,
+        "53fd8c351c9dda86fce815e172c77d66f3a965332381afa592d68af3c7b6c443": 1,
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 1
+      }
+    },
+    {
+      "case_id": "aggregate-01",
+      "question": "List the components of a typical neural network.",
+      "expected_answer": "Input layer, hidden layers, output layer, activation functions, and loss functions.",
+      "segment": "aggregate",
+      "is_answerable": true,
+      "relevant_chunk_ids": [
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824",
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b",
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b"
+      ],
+      "relevance_grades": {
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824": 2,
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 1,
+        "01f282f457bb66bf460c83ce08ac3bcdeaa12f03bc4b7771e03ec2b18ace671b": 1
+      }
+    },
+    {
+      "case_id": "multiturn-01",
+      "question": "And what are its applications?",
+      "expected_answer": "Game playing such as AlphaGo, robotics, and autonomous driving.",
+      "segment": "multi_turn",
+      "is_answerable": true,
+      "history": [
+        {
+          "role": "user",
+          "content": "Explain reinforcement learning"
+        },
+        {
+          "role": "assistant",
+          "content": "The agent learns by interacting with an environment and receiving rewards or penalties."
+        }
+      ],
+      "relevant_chunk_ids": [
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b",
+        "7efa89f5e9200514bf4ccc23bd4f38cac593cb8f9fe0a00f4182d7de76988268",
+        "50faaa69487c6a65ee015fc24d3b0d9b76003b6f2be38ad4d3b30e09e5f61102"
+      ],
+      "relevance_grades": {
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 2,
+        "7efa89f5e9200514bf4ccc23bd4f38cac593cb8f9fe0a00f4182d7de76988268": 1,
+        "50faaa69487c6a65ee015fc24d3b0d9b76003b6f2be38ad4d3b30e09e5f61102": 1
+      }
+    },
+    {
+      "case_id": "multiturn-02",
+      "question": "Which of those two is used for images?",
+      "expected_answer": "Convolutional neural networks.",
+      "segment": "multi_turn",
+      "is_answerable": true,
+      "history": [
+        {
+          "role": "user",
+          "content": "Compare CNNs and RNNs"
+        },
+        {
+          "role": "assistant",
+          "content": "CNNs handle grid-like data. RNNs handle sequences."
+        }
+      ],
+      "relevant_chunk_ids": [
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824",
+        "5ac0fe0a969b1b2a1f413fae858e589cc7e76ade7c36af70046f1b244b655d3a",
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b"
+      ],
+      "relevance_grades": {
+        "c8d9f1ea4891dd901cb2560c828abbad425c087c7bcede7748d5dddccba05824": 2,
+        "5ac0fe0a969b1b2a1f413fae858e589cc7e76ade7c36af70046f1b244b655d3a": 1,
+        "5582737e1e9210aa5550d3916c27765c5c95b084b9751216c361e5eb7a99511b": 1
+      }
+    },
+    {
+      "case_id": "unanswerable-01",
+      "question": "What is the annual training budget for the machine learning team?",
+      "expected_answer": "",
+      "segment": "unanswerable",
+      "is_answerable": false,
+      "relevant_chunk_ids": [],
+      "relevance_grades": {}
+    },
+    {
+      "case_id": "unanswerable-02",
+      "question": "Who is the chief executive of the company that wrote this document?",
+      "expected_answer": "",
+      "segment": "unanswerable",
+      "is_answerable": false,
+      "relevant_chunk_ids": [],
+      "relevance_grades": {}
+    }
+  ]
+}
