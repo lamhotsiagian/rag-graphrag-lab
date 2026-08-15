@@ -3,6 +3,13 @@
 Runnable companion code for **Cracking RAG and GraphRAG System Design Interviews**
 (AI Engineering Career Series).
 
+Preview: https://drive.google.com/file/d/1IzCcRv6rkqQVPgD_xHzwVx3yXhk7Nlv3/view?usp=sharing
+
+Book: https://shop.beacons.ai/aiengineeringinsider/39179a77-c8b1-451d-9934-54b16b15422f
+
+<img width="1241" height="1754" alt="RAG-preview-1-12_page-0001" src="https://github.com/user-attachments/assets/2d869b07-3922-42b5-a08f-daf19c42217d" />
+
+
 Every chapter of the book maps to a module and a Streamlit lab here. The code
 runs entirely on your own machine: Ollama for both models, PostgreSQL with
 pgvector for the vector store, and Neo4j for the graph. No hosted API key and
