@@ -109,15 +109,23 @@ with tab2:
 with tab3:
     st.subheader("Graph View")
     if st.button("Load Graph for ch8"):
-        nodes = query_graph("MATCH (n {chapter: 'ch8'}) RETURN n.id AS id, labels(n)[0] AS type LIMIT 100")
-        rels = query_graph("MATCH (a {chapter: 'ch8'})-[r]->(b {chapter: 'ch8'}) RETURN a.id AS source, b.id AS target, type(r) AS type LIMIT 100")
+        nodes = query_graph("MATCH (n {chapter: 'ch8'}) RETURN coalesce(n.name, n.canonical_name) AS id, coalesce(n.entity_type, labels(n)[0], 'Entity') AS type LIMIT 100")
+        rels = query_graph("MATCH (a {chapter: 'ch8'})-[r]->(b {chapter: 'ch8'}) RETURN coalesce(a.name, a.canonical_name) AS source, coalesce(b.name, b.canonical_name) AS target, coalesce(r.rel_type, type(r), 'RELATES') AS type LIMIT 100")
         
-        if nodes:
+        valid_nodes = [n for n in (nodes or []) if n.get('id')]
+        valid_rels = [r for r in (rels or []) if r.get('source') and r.get('target')]
+        
+        if valid_nodes:
             net = Network(height='600px', width='100%', directed=True)
-            for n in nodes:
-                net.add_node(n['id'], label=n['id'], title=n['type'])
-            for r in rels:
-                net.add_edge(r['source'], r['target'], title=r['type'], label=r['type'])
+            for n in valid_nodes:
+                nid = str(n['id'])
+                ntype = str(n.get('type', 'Entity'))
+                net.add_node(nid, label=nid, title=ntype)
+            for r in valid_rels:
+                src = str(r['source'])
+                tgt = str(r['target'])
+                rtype = str(r.get('type', 'RELATES'))
+                net.add_edge(src, tgt, title=rtype, label=rtype)
                 
             with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as tmp:
                 net.save_graph(tmp.name)

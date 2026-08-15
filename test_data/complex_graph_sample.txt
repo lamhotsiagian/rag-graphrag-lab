@@ -1,0 +1,33 @@
+# Meridian Global Tech & AI Architecture Ecosystem
+
+## Executive Leadership & Organization
+Meridian Global Infrastructure is an enterprise platform provider led by Chief Executive Officer Elena Rostova and Chief Technology Officer Dr. Marcus Vance. Sarah Chen serves as the Vice President of AI Engineering, reporting directly to Dr. Vance. Sarah Chen leads the Core AI Systems Team, which includes Principal Architect David Miller and Lead Data Engineer Priya Sharma. Elena Rostova recently oversaw the strategic acquisition of Hyperion Analytics, bringing Hyperion's chief researcher Dr. Aris Thorne into Meridian's executive R&D council.
+
+## Enterprise Architecture: Project Helix
+Project Helix is Meridian's flagship AI system designed by Sarah Chen and David Miller. Project Helix integrates three core operational platforms:
+1. Nexus Data Fabric - Managed by Priya Sharma, Nexus acts as the central streaming pipeline ingest engine for 50 million commercial documents.
+2. Aegis Security Gateway - Architected by Dr. Marcus Vance, Aegis enforces Tenant Isolation, OIDC Authentication, and Row Level Security across all data services.
+3. GraphCore Search Engine - Co-developed by David Miller and Dr. Aris Thorne, GraphCore combines Vector Search with Property Graph Traversals.
+
+## Data Infrastructure & Storage Systems
+GraphCore relies on a dual-database storage architecture:
+- PostgreSQL with pgvector: Stores 1536-dimensional dense vector embeddings using HNSW indexing with cosine similarity (`vector_cosine_ops`). Managed by Priya Sharma.
+- Neo4j Enterprise Cluster: Serves as the property graph database storing entities, relationships, community clusters, and Cypher traversal paths. Maintained by David Miller.
+
+Nexus Data Fabric streams raw documents into the Ingestion Engine, which uses layout-aware parsers to extract Markdown tables and hierarchical breadcrumbs before writing parent-child chunks into PostgreSQL and Neo4j.
+
+## AI Models & Retrieval Stack
+Project Helix standardizes on a local open-weights model stack:
+- Embedding Model: `nomic-embed-text` produces dense semantic representations for both indexing and query pipelines.
+- Vision-Language Model: `qwen2.5vl:3b` serves as the primary multi-modal generator and cross-encoder evaluator.
+- Orchestration Layer: `Ollama` serves local LLM inference, while `LangGraph` orchestrates stateful multi-hop cycles, conditional routing, and Human-in-the-Loop checkpoints.
+
+GraphCore executes a unified reranking fusion pipeline where reciprocal rank fusion (RRF) pools vector hits from PostgreSQL and Cypher path triples from Neo4j into a single cross-encoder scoring stage managed by `qwen2.5vl:3b`.
+
+## Security, Governance & Compliance
+All components in Project Helix must comply with strict enterprise regulatory frameworks:
+- Aegis Security Gateway enforces EU AI Act compliance by auditing all automated decision paths and redacting PII before prompt assembly.
+- SOC2 Type II compliance requires that PostgreSQL pgvector tables execute Row Level Security (RLS) policies using session-scoped `app.tenant_id` variables.
+- GDPR Clause 28 enforces an automated deletion workflow where delete events purge chunks from both PostgreSQL and Neo4j across all tenant partitions.
+
+Dr. Marcus Vance and Elena Rostova review Project Helix compliance quarterly alongside Dr. Aris Thorne and Sarah Chen.

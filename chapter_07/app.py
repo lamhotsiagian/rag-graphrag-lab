@@ -31,6 +31,25 @@ try:
 except Exception as e:
     st.sidebar.error(f"Neo4j: Error - {e}")
 
+import io
+import pypdf
+from chapter_02.loaders import clean_text
+
+def extract_file_content(uploaded_file) -> str:
+    filename = uploaded_file.name.lower()
+    raw_bytes = uploaded_file.getvalue()
+    if filename.endswith(".pdf"):
+        try:
+            reader = pypdf.PdfReader(io.BytesIO(raw_bytes))
+            extracted_pages = [p.extract_text() or "" for p in reader.pages]
+            return clean_text("\n\n".join(extracted_pages))
+        except Exception as err:
+            st.sidebar.error(f"PDF Parse Error ({uploaded_file.name}): {err}")
+            return ""
+    else:
+        text = raw_bytes.decode("utf-8", errors="ignore")
+        return clean_text(text)
+
 tenant = tenant_selector("ch7")
 
 uploaded_files = st.sidebar.file_uploader("Upload Documents", type=["txt", "md", "pdf"], accept_multiple_files=True)
@@ -38,13 +57,25 @@ uploaded_files = st.sidebar.file_uploader("Upload Documents", type=["txt", "md",
 if st.sidebar.button("Build Knowledge Graph") and uploaded_files:
     with st.spinner("Building Knowledge Graph..."):
         if llm:
-            all_text = ""
-            for f in uploaded_files:
-                all_text += f.getvalue().decode("utf-8", errors="ignore") + "\n"
-            res = build_knowledge_graph(all_text, llm, tenant_id=tenant,
-                                        source_uri='upload', chapter='ch7')
-            st.session_state['ch7_last_build'] = res
-            st.success("Graph built successfully!")
+            try:
+                all_text = ""
+                for f in uploaded_files:
+                    txt = extract_file_content(f)
+                    if txt:
+                        all_text += txt + "\n\n"
+                
+                if not all_text.strip():
+                    st.sidebar.error("No valid text found in uploaded document(s).")
+                else:
+                    source_name = uploaded_files[0].name if uploaded_files else 'upload'
+                    res = build_knowledge_graph(
+                        all_text, llm, tenant_id=tenant,
+                        source_uri=source_name, chapter='ch7'
+                    )
+                    st.session_state['ch7_last_build'] = res
+                    st.sidebar.success(f"Graph built! ({res.get('written', {}).get('nodes', 0)} nodes, {res.get('written', {}).get('relationships', 0)} rels)")
+            except Exception as e:
+                st.sidebar.error(f"Graph ingestion error: {e}")
         else:
             st.error("LLM not available.")
 
@@ -69,17 +100,25 @@ tab1, tab2, tab3, tab4 = st.tabs(["Graph Visualization", "Entity Explorer", "Cyp
 with tab1:
     st.subheader("Interactive Graph")
     try:
-        nodes = query_graph("MATCH (n {chapter: 'ch7'}) RETURN n.id AS id, labels(n)[0] AS type LIMIT 100")
-        rels = query_graph("MATCH (a {chapter: 'ch7'})-[r]->(b {chapter: 'ch7'}) RETURN a.id AS source, b.id AS target, type(r) AS type LIMIT 100")
+        nodes = query_graph("MATCH (n {chapter: 'ch7'}) RETURN coalesce(n.name, n.canonical_name) AS id, coalesce(n.entity_type, labels(n)[0], 'Entity') AS type LIMIT 100")
+        rels = query_graph("MATCH (a {chapter: 'ch7'})-[r]->(b {chapter: 'ch7'}) RETURN coalesce(a.name, a.canonical_name) AS source, coalesce(b.name, b.canonical_name) AS target, coalesce(r.rel_type, type(r), 'RELATES') AS type LIMIT 100")
         
-        if nodes:
+        valid_nodes = [n for n in (nodes or []) if n.get('id')]
+        valid_rels = [r for r in (rels or []) if r.get('source') and r.get('target')]
+        
+        if valid_nodes:
             net = Network(height='600px', width='100%', directed=True)
-            colors = {"Person": "#ff9999", "Organization": "#99ff99", "Technology": "#9999ff", "Concept": "#ffff99"}
-            for n in nodes:
-                color = colors.get(n['type'], "#cccccc")
-                net.add_node(n['id'], label=n['id'], title=n['type'], color=color)
-            for r in rels:
-                net.add_edge(r['source'], r['target'], title=r['type'], label=r['type'])
+            colors = {"Person": "#ff9999", "Organization": "#99ff99", "Technology": "#9999ff", "Concept": "#ffff99", "Project": "#ffcc99", "Product": "#cc99ff"}
+            for n in valid_nodes:
+                nid = str(n['id'])
+                ntype = str(n.get('type', 'Entity'))
+                color = colors.get(ntype, "#cccccc")
+                net.add_node(nid, label=nid, title=ntype, color=color)
+            for r in valid_rels:
+                src = str(r['source'])
+                tgt = str(r['target'])
+                rtype = str(r.get('type', 'RELATES'))
+                net.add_edge(src, tgt, title=rtype, label=rtype)
                 
             with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as tmp:
                 net.save_graph(tmp.name)
@@ -95,7 +134,7 @@ with tab1:
 with tab2:
     st.subheader("Entity Explorer")
     try:
-        entities = query_graph("MATCH (n {chapter: 'ch7'}) RETURN n.id AS name, labels(n)[0] AS type")
+        entities = query_graph("MATCH (n {chapter: 'ch7'}) RETURN coalesce(n.name, n.canonical_name) AS name, coalesce(n.entity_type, labels(n)[0], 'Entity') AS type")
         if entities:
             st.dataframe(entities)
         else:

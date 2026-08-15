@@ -10,6 +10,8 @@ def get_llm(temperature: float = 0.0, **kwargs) -> ChatOllama:
         model=settings.LLM_MODEL,
         base_url=settings.OLLAMA_BASE_URL,
         temperature=temperature,
+        keep_alive="30m",
+        num_ctx=4096,
         **kwargs,
     )
 
